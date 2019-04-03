@@ -3,6 +3,19 @@ import os
 from pathlib import Path
 import filecmp
 
+def compare (dir_new, dir_old):
+    cmp = filecmp.dircmp(dir_new, dir_old)
+    l_list = cmp.left_list
+    r_list = cmp.right_list
+
+    print('New:')
+    for item in l_list:
+        print('\t' + item)
+
+    print('Old:')
+    for item in r_list:
+        print('\t' + item)
+
 
 dir2Backup = "C:/Users/victo/Desktop/Server"
 backupDir = "C:/Users/victo/Desktop/BackupServer"
@@ -20,6 +33,9 @@ for i in dirs:
 
 lastBackup = dirs[len(dirs)-1]
 lastBackup = backupDir + '/' + lastBackup
+
+compare(dir2Backup, lastBackup)
+input()
 
 areEqual = filecmp.cmp(dir2Backup, lastBackup)
 
@@ -47,5 +63,9 @@ for item1 in server_dirs:
                         print(item1 + ' mas reciente en el servidor')
 
 
+
+
+
+# https://realpython.com/working-with-files-in-python/
 # see dircmp class https://docs.python.org/2/library/filecmp.html
 # https://stackoverflow.com/questions/3204782/how-to-check-if-a-file-is-a-directory-or-regular-file-in-python
