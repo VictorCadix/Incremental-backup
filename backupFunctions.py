@@ -23,6 +23,7 @@ def compareDir (dir_new, dir_old, changes_list):
 
     print('Deleted:')
     for item in deleted:
+        changes_list['deleted'].append(dir_new + '/' + item)
         print('\t' + item)
     
     #cmp.common_dirs
@@ -30,9 +31,9 @@ def compareDir (dir_new, dir_old, changes_list):
 
     # Para directorios comunes utiliza recursión
     print('common_dirs:')
-    for folder_name in cmp.common_dirs:
-        print('\t' + folder_name)
-        compareDir(dir_new + '/' + folder_name, dir_old + '/' + folder_name)
+    for folder in cmp.common_dirs:
+        print('\t' + folder)
+        compareDir(dir_new + '/' + folder, dir_old + '/' + folder, changes_list)
 
     print('common_files:')
     for item in cmp.common_files:
@@ -40,5 +41,9 @@ def compareDir (dir_new, dir_old, changes_list):
         
         # Compara los archivos con mismo nombre, si son diferentes guarda
         # el que esté en dir_new
-        areEqual = filecmp.cmp(dir_new+'/'+item, dir_old+'/'+item)
+        areEqual = filecmp.cmp(dir_new + '/' + item, dir_old + '/' + item)
         print('\t\t' + str(areEqual))
+        
+        if not areEqual:
+            changes_list['new'].append(dir_new + '/' + item)
+            

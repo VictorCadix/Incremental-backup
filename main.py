@@ -29,6 +29,8 @@ lastBackup = dirs[len(dirs)-1]
 lastBackup = backupDir + '/' + lastBackup
 
 bckp.compareDir(dir2Backup, lastBackup, changes_list)
+
+print(changes_list)
 input()
 
 areEqual = filecmp.cmp(dir2Backup, lastBackup)
