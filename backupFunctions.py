@@ -1,4 +1,6 @@
+import os
 import filecmp
+import shutil
 
 def compareDir (dir_new, dir_old, changes_list):
     cmp = filecmp.dircmp(dir_new, dir_old)
@@ -23,7 +25,7 @@ def compareDir (dir_new, dir_old, changes_list):
 
     print('Deleted:')
     for item in deleted:
-        changes_list['deleted'].append(dir_new + '/' + item)
+        changes_list['deleted'].append(dir_old + '/' + item)
         print('\t' + item)
     
     # Compara los archivos con mismo nombre, si son diferentes guarda
@@ -32,7 +34,7 @@ def compareDir (dir_new, dir_old, changes_list):
     for item in cmp.common_files:
         print('\t' + item)
         areEqual = filecmp.cmp(dir_new + '/' + item, dir_old + '/' + item)
-        print('\t\t' + str(areEqual))
+        #print('\t\t' + str(areEqual))
         
         if not areEqual:
             changes_list['new'].append(dir_new + '/' + item)
@@ -42,4 +44,16 @@ def compareDir (dir_new, dir_old, changes_list):
     for folder in cmp.common_dirs:
         print('\t' + folder)
         compareDir(dir_new + '/' + folder, dir_old + '/' + folder, changes_list)
-        
+
+
+def generate_incremental_backup(directory, changes_list):
+    baseDir = changes_list['updated_dir']
+    index = baseDir.find("20")
+    date = baseDir[index:]
+    print(date)
+
+    newFolder = directory + '/' + date
+    if not os.path.exists(newFolder):
+        os.makedirs(newFolder)
+
+    
