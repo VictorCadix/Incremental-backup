@@ -1,6 +1,6 @@
 import filecmp
 
-def compareDir (dir_new, dir_old):
+def compareDir (dir_new, dir_old, changes_list):
     cmp = filecmp.dircmp(dir_new, dir_old)
     l_list = cmp.left_list
     r_list = cmp.right_list
@@ -18,6 +18,7 @@ def compareDir (dir_new, dir_old):
 
     print('New:')
     for item in new:
+        changes_list['new'].append(dir_new + '/' + item)
         print('\t' + item)
 
     print('Deleted:')

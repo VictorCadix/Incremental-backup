@@ -7,6 +7,13 @@ import backupFunctions as bckp
 dir2Backup = "C:/Users/victo/Desktop/Server"
 backupDir = "C:/Users/victo/Desktop/BackupServer"
 
+new = []
+deleted = []
+changes_list = {}
+changes_list['new'] = new
+changes_list['deleted'] = deleted
+
+
 server_dirs = os.listdir(dir2Backup)
 print('folderContent')
 for i in server_dirs:
@@ -21,7 +28,7 @@ for i in dirs:
 lastBackup = dirs[len(dirs)-1]
 lastBackup = backupDir + '/' + lastBackup
 
-bckp.compareDir(dir2Backup, lastBackup)
+bckp.compareDir(dir2Backup, lastBackup, changes_list)
 input()
 
 areEqual = filecmp.cmp(dir2Backup, lastBackup)
