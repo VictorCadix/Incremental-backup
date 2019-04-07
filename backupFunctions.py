@@ -15,3 +15,26 @@ def compareDir (dir_new, dir_old):
     
     new = cmp.left_only
     deleted = cmp.right_only
+
+    print('New:')
+    for item in new:
+        print('\t' + item)
+
+    print('Deleted:')
+    for item in deleted:
+        print('\t' + item)
+
+    
+    #cmp.common_dirs
+    #cmp.common_files
+
+    print('common_dirs:')
+    for item in cmp.common_dirs:
+        print('\t' + item)
+
+    print('common_files:')
+    for item in cmp.common_files:
+        print('\t' + item)
+    
+        areEqual = filecmp.cmp(dir_new+'/'+item, dir_old+'/'+item)
+        print('\t\t' + str(areEqual))
