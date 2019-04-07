@@ -34,22 +34,6 @@ if not areEqual:
     for i in dirs:
         print('\t' + i)
 
-for item1 in server_dirs:
-        for item2 in dirs:
-            if(item1==item2):
-                res = filecmp.cmp(lastBackup+'/'+item1, dir2Backup+'/'+item2)
-                print(res)
-                if not res:
-                    mtime1 = os.stat(lastBackup+'/'+item1)
-                    mtime1 = mtime1[8]
-                    print(mtime1)
-                    mtime2 = os.stat(dir2Backup+'/'+item2)
-                    mtime2 = mtime2[8]
-                    print(mtime2)
-                    if (mtime1 > mtime2):
-                        print(item1 + ' mas reciente en el servidor')
-
-
 
 
 
