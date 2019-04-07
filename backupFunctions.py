@@ -42,5 +42,4 @@ def compareDir (dir_new, dir_old, changes_list):
     for folder in cmp.common_dirs:
         print('\t' + folder)
         compareDir(dir_new + '/' + folder, dir_old + '/' + folder, changes_list)
-
-    
+        

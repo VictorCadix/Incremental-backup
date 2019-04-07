@@ -31,19 +31,6 @@ lastBackup = backupDir + '/' + lastBackup
 bckp.compareDir(dir2Backup, lastBackup, changes_list)
 
 print(changes_list)
-input()
-
-areEqual = filecmp.cmp(dir2Backup, lastBackup)
-
-print(areEqual)
-
-if not areEqual:
-    dirs = os.listdir(lastBackup)
-    print('lastBackup content:')
-    for i in dirs:
-        print('\t' + i)
-
-
 
 
 # https://realpython.com/working-with-files-in-python/
