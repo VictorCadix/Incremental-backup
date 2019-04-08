@@ -1,6 +1,7 @@
 import os
 import filecmp
 import shutil
+import datetime
 
 def compareDir (dir_new, dir_old, changes_list):
     cmp = filecmp.dircmp(dir_new, dir_old)
@@ -49,11 +50,31 @@ def compareDir (dir_new, dir_old, changes_list):
 def generate_incremental_backup(directory, changes_list):
     baseDir = changes_list['updated_dir']
     index = baseDir.find("20")
-    date = baseDir[index:]
+    if index < 0:
+        now = datetime.datetime.now()
+        date = str(now)[:str(now).find(' ')]
+    else:
+        date = baseDir[index:]
     print(date)
 
     newFolder = directory + '/' + date
     if not os.path.exists(newFolder):
         os.makedirs(newFolder)
 
+    for dir_name in changes_list['new']:
+        relative_dir = dir_name.replace(changes_list['updated_dir'], '')
+        print(relative_dir)
+
+        if os.path.isfile(dir_name):
+            print('is a file')
+            path = newFolder + relative_dir
+            index = path.rfind('/')
+            path = path[:index]
+            if not os.path.exists(path):
+                os.makedirs(path)
+            shutil.copy2(dir_name, path)
+        else:
+            relative_dir = dir_name.replace(changes_list['updated_dir'], '')
+            print(relative_dir)
+            shutil.copytree(dir_name, newFolder + relative_dir)
     
