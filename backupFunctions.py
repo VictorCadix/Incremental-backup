@@ -84,4 +84,9 @@ def generate_incremental_backup(directory, changes_list):
         f.write('D ' +  relative_dir + '\n')
     f.close()
 
-def
+def build_backup(backup_dir, gen_built_dir):
+    backups = os.listdir(backup_dir)
+    print('Backup dates:')
+    for i in backups:
+        print('\t' + i)
+

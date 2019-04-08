@@ -38,6 +38,7 @@ print(changes_list)
 
 bckp.generate_incremental_backup('C:/Users/victo/Desktop/Incremental Backup', changes_list)
 
+bckp.build_backup('C:/Users/victo/Desktop/Incremental Backup','C:/Users/victo/Desktop/Incremental Backup')
 
 # https://realpython.com/working-with-files-in-python/
 # see dircmp class https://docs.python.org/2/library/filecmp.html
