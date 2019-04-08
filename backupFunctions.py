@@ -80,5 +80,8 @@ def generate_incremental_backup(directory, changes_list):
     
     f = open(newFolder + '/incremental_bacup.txt','w')
     for dir_name in changes_list['deleted']:
-        f.write('D ' +  dir_name)
+        relative_dir = dir_name.replace(changes_list['save_dir'], '')
+        f.write('D ' +  relative_dir + '\n')
     f.close()
+
+def
