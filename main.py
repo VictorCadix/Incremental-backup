@@ -4,41 +4,30 @@ from pathlib import Path
 import filecmp
 import backupFunctions as bckp
 
+bckp_struct = bckp.backup_struct()
 dir2Backup = "C:/Users/victo/Desktop/Server"
-backupDir = "C:/Users/victo/Desktop/BackupServer/2019-04-07"
+save_dir = "C:/Users/victo/Desktop/BackupServer/2019-04-08"
 
-new = []
-deleted = []
-changes_list = {}
-changes_list['new'] = new
-changes_list['deleted'] = deleted
-changes_list['updated_dir'] = ''
-changes_list['save_dir'] = ''
-
-
-server_dirs = os.listdir(dir2Backup)
+""" server_dirs = os.listdir(dir2Backup)
 print('folderContent')
 for i in server_dirs:
     print('\t' + i)
 
 
-dirs = os.listdir(backupDir)
+dirs = os.listdir(save_dir)
 print('Destination files:')
 for i in dirs:
-    print('\t' + i)
+    print('\t' + i) """
 
 #lastBackup = dirs[len(dirs)-1]
-#lastBackup = backupDir + '/' + lastBackup
+#lastBackup = dest_dir + '/' + lastBackup
 
-changes_list['updated_dir'] = dir2Backup
-changes_list['save_dir'] = backupDir
+bckp.compareDir(dir2Backup, save_dir, bckp_struct)
+print(bckp_struct)
 
-bckp.compareDir(dir2Backup, backupDir, changes_list)
-print(changes_list)
+#bckp.generate_incremental_backup('C:/Users/victo/Desktop/Incremental Backup', changes_list)
 
-bckp.generate_incremental_backup('C:/Users/victo/Desktop/Incremental Backup', changes_list)
-
-bckp.build_backup('C:/Users/victo/Desktop/Incremental Backup','C:/Users/victo/Desktop/Incremental Backup')
+#bckp.build_backup('C:/Users/victo/Desktop/Incremental Backup','C:/Users/victo/Desktop/Incremental Backup')
 
 # https://realpython.com/working-with-files-in-python/
 # see dircmp class https://docs.python.org/2/library/filecmp.html
