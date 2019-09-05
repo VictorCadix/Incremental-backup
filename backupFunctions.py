@@ -2,10 +2,12 @@ import os
 import filecmp
 import shutil
 import datetime
+import sys
 
 class backup_struct:
     new = []
     deleted = []
+    dir2Backup = ''
     
     def __repr__(self):
         
@@ -73,21 +75,24 @@ def compareDir (dir_new, dir_old, bckp_struct, verbose=False):
 
 
 def generate_incremental_backup(directory, changes_list):
-    baseDir = changes_list['updated_dir']
-    index = baseDir.find("20")
-    if index < 0:
-        now = datetime.datetime.now()
-        date = str(now)[:str(now).find(' ')]
-    else:
-        date = baseDir[index:]
-    print(date)
 
-    newFolder = directory + '/' + date
+    #Get the name of the folder to backup
+    index = changes_list.dir2Backup.rfind("/")
+    folder_name = changes_list.dir2Backup[index:]
+
+    #if index < 0:
+    #    now = datetime.datetime.now()
+    #    date = str(now)[:str(now).find(' ')]
+    #else:
+    #    date = baseDir[index:]
+    #print(date)
+
+    newFolder = directory + '/' + folder_name
     if not os.path.exists(newFolder):
         os.makedirs(newFolder)
 
-    for dir_name in changes_list['new']:
-        relative_dir = dir_name.replace(changes_list['updated_dir'], '')
+    for dir_name in changes_list.new:
+        relative_dir = dir_name.replace(changes_list.dir2Backup, '')
         print(relative_dir)
 
         if os.path.isfile(dir_name):
@@ -95,16 +100,18 @@ def generate_incremental_backup(directory, changes_list):
             path = newFolder + relative_dir
             index = path.rfind('/')
             path = path[:index]
+            print(path)
+            sys.exit(0)
             if not os.path.exists(path):
                 os.makedirs(path)
             shutil.copy2(dir_name, path)
         else:
-            relative_dir = dir_name.replace(changes_list['updated_dir'], '')
+            relative_dir = dir_name.replace(changes_list.dir2Backup, '')
             print(relative_dir)
             shutil.copytree(dir_name, newFolder + relative_dir)
     
     f = open(newFolder + '/incremental_bacup.txt','w')
-    for dir_name in changes_list['deleted']:
+    for dir_name in changes_list.deleted:
         relative_dir = dir_name.replace(changes_list['save_dir'], '')
         f.write('D ' +  relative_dir + '\n')
     f.close()
