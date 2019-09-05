@@ -15,6 +15,17 @@ while True:
         bckp.compareDir(dirA, dirB, bckp_struct)
         print(bckp_struct)
     
+    if function_call == 'generate incremental backup':
+        dir2Backup = input("Directory to backup: ").replace('\"','')
+        base_dir = input('Base directory: ').replace('\"','')
+        folder = input('Folder: ').replace('\"','')
+
+        bckp_struct = bckp.backup_struct()
+        bckp_struct.new_dir = dir2Backup
+        
+        bckp.compareDir(dir2Backup, base_dir, bckp_struct)
+        bckp.generate_incremental_backup(folder, bckp_struct)
+    
     if function_call == 'exit':
         sys.exit(0)
     else:
@@ -38,9 +49,6 @@ for i in dirs:
 
 #lastBackup = dirs[len(dirs)-1]
 #lastBackup = dest_dir + '/' + lastBackup
-
-bckp.compareDir(dir2Backup, save_dir, bckp_struct)
-print(bckp_struct)
 
 #bckp.generate_incremental_backup('C:/Users/victo/Desktop/Incremental Backup', changes_list)
 
