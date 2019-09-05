@@ -1,10 +1,27 @@
 import shutil
 import os
 from pathlib import Path
-import filecmp
 import backupFunctions as bckp
+import sys
 
-bckp_struct = bckp.backup_struct()
+while True:
+    function_call = input(">>")
+
+    if function_call == 'compare dirs':
+        dirA = input("Dir A: ").replace('\"','')
+        dirB = input("Dir B: ").replace('\"','')
+
+        bckp_struct = bckp.backup_struct()
+        bckp.compareDir(dirA, dirB, bckp_struct)
+        print(bckp_struct)
+    
+    if function_call == 'exit':
+        sys.exit(0)
+    else:
+        print("Unknown command")
+        continue
+
+
 dir2Backup = "C:/Users/victo/Desktop/Server"
 save_dir = "C:/Users/victo/Desktop/BackupServer/2019-04-08"
 
