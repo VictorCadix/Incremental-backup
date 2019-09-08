@@ -5,7 +5,7 @@ import backupFunctions as bckp
 import sys
 
 while True:
-    function_call = input(">>")
+    function_call = input(">> ")
 
     if function_call == 'compare dirs':
         dirA = input("Dir A: ").replace('\"','')
@@ -15,7 +15,7 @@ while True:
         bckp.compareDir(dirA, dirB, bckp_struct)
         print(bckp_struct)
     
-    if function_call == 'generate incremental backup':
+    elif function_call == 'generate incremental backup':
         dir2Backup = input("Directory to backup: ").replace('\"','')
         base_dir = input('Base directory: ').replace('\"','')
         folder = input('Folder: ').replace('\"','')
@@ -26,7 +26,7 @@ while True:
         bckp.compareDir(dir2Backup, base_dir, bckp_struct)
         bckp.generate_incremental_backup(folder, bckp_struct)
     
-    if function_call == 'exit':
+    elif function_call == 'exit':
         sys.exit(0)
     else:
         print("Unknown command")
