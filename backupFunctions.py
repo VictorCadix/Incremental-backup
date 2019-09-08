@@ -5,9 +5,11 @@ import datetime
 import sys
 
 class backup_struct:
-    new = []
-    deleted = []
-    dir2Backup = ''
+    
+    def __init__(self):
+        self.new = []
+        self.deleted = []
+        self.dir2Backup = ''
     
     def __repr__(self):
         
