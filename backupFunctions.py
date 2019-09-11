@@ -2,7 +2,7 @@ import os
 import filecmp
 import shutil
 import datetime
-import sys
+import sys          
 
 class backup_struct:
     
@@ -10,6 +10,7 @@ class backup_struct:
         self.new = []
         self.deleted = []
         self.dir2Backup = ''
+        self.baseDir = ''
     
     def __repr__(self):
         
@@ -68,7 +69,7 @@ def compareDir (dir_new, dir_old, bckp_struct, verbose=False):
 def generate_incremental_backup(directory, changes_list):
 
     #Get the name of the folder to backup
-    index = changes_list.dir2Backup.rfind("/")
+    index = changes_list.dir2Backup.rfind('\\')
     folder_name = changes_list.dir2Backup[index:]
 
     #if index < 0:
@@ -78,7 +79,7 @@ def generate_incremental_backup(directory, changes_list):
     #    date = baseDir[index:]
     #print(date)
 
-    newFolder = directory + '/' + folder_name
+    newFolder = directory + folder_name
     if not os.path.exists(newFolder):
         os.makedirs(newFolder)
 
@@ -89,10 +90,11 @@ def generate_incremental_backup(directory, changes_list):
         if os.path.isfile(dir_name):
             print('is a file')
             path = newFolder + relative_dir
+            print('1:' + path)
             index = path.rfind('/')
+            print('2:' + str(index))
             path = path[:index]
-            print(path)
-            sys.exit(0)
+            print('3:' + path)
             if not os.path.exists(path):
                 os.makedirs(path)
             shutil.copy2(dir_name, path)
@@ -103,7 +105,7 @@ def generate_incremental_backup(directory, changes_list):
     
     f = open(newFolder + '/incremental_bacup.txt','w')
     for dir_name in changes_list.deleted:
-        relative_dir = dir_name.replace(changes_list['save_dir'], '')
+        relative_dir = dir_name.replace(changes_list.baseDir, '')
         f.write('D ' +  relative_dir + '\n')
     f.close()
 

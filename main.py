@@ -21,7 +21,8 @@ while True:
         folder = input('Folder: ').replace('\"','')
 
         bckp_struct = bckp.backup_struct()
-        bckp_struct.new_dir = dir2Backup
+        bckp_struct.dir2Backup = dir2Backup
+        bckp_struct.baseDir = base_dir
         
         bckp.compareDir(dir2Backup, base_dir, bckp_struct)
         bckp.generate_incremental_backup(folder, bckp_struct)
