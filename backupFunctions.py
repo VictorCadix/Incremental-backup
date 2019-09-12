@@ -114,16 +114,32 @@ def build_backup(incr_backup_dir, gen_built_dir):
     print('Backup dates:')
     for bckp_name in backups_name:
         print('\t' + bckp_name)
-    
-    newFolder = gen_built_dir + '/' + 'Built'
-    #if not os.path.exists(newFolder):
-    #    os.makedirs(newFolder)
-    while True:
-        backup_name = input('Select the backup to build: ')
-        if os.path.exists(os.path.join(incr_backup_dir, backup_name)):
-            break
-    
-    return 0
 
-    for i in backups:
-        shutil.copy(incr_backup_dir+'/'+i , newFolder)
+    while True:
+        target_backup = input('Select the backup to build: ')
+        if os.path.exists(os.path.join(incr_backup_dir, target_backup)):
+            break
+
+    newFolder = gen_built_dir + '/' + 'Built'
+    if not os.path.exists(newFolder):
+        os.makedirs(newFolder)
+
+    for bckp_name in backups_name:
+        print(bckp_name)
+        #first remove the deteled part
+        dirs = os.listdir(os.path.join(incr_backup_dir, bckp_name))
+        for dir_ in dirs:
+            if dir_ == 'incremental_bacup.txt':
+                continue
+            print('\t' + dir_)
+            file_name = os.path.join(incr_backup_dir, bckp_name, dir_)
+            print(file_name)
+            if os.path.isfile(file_name):
+                print('Es file')
+                shutil.copy2(file_name, newFolder)
+            else:
+                print('No es file')
+        
+        if bckp_name == target_backup:
+            # Ha finalizado
+            break
