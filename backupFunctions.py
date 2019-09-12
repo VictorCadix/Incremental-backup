@@ -103,7 +103,7 @@ def generate_incremental_backup(directory, changes_list):
             print(relative_dir)
             shutil.copytree(dir_name, newFolder + relative_dir)
     
-    f = open(newFolder + '/incremental_bacup.txt','w')
+    f = open(newFolder + '/incremental_backup.txt','w')
     for dir_name in changes_list.deleted:
         relative_dir = dir_name.replace(changes_list.baseDir, '')
         f.write('D ' +  relative_dir + '\n')
