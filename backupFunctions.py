@@ -109,15 +109,21 @@ def generate_incremental_backup(directory, changes_list):
         f.write('D ' +  relative_dir + '\n')
     f.close()
 
-def build_backup(backup_dir, gen_built_dir):
-    backups = os.listdir(backup_dir)
+def build_backup(incr_backup_dir, gen_built_dir):
+    backups_name = os.listdir(incr_backup_dir)
     print('Backup dates:')
-    for i in backups:
-        print('\t' + i)
+    for bckp_name in backups_name:
+        print('\t' + bckp_name)
     
     newFolder = gen_built_dir + '/' + 'Built'
     #if not os.path.exists(newFolder):
     #    os.makedirs(newFolder)
+    while True:
+        backup_name = input('Select the backup to build: ')
+        if os.path.exists(os.path.join(incr_backup_dir, backup_name)):
+            break
     
+    return 0
+
     for i in backups:
-        shutil.copy(backup_dir+'/'+i , newFolder)
+        shutil.copy(incr_backup_dir+'/'+i , newFolder)

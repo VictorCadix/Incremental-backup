@@ -26,6 +26,11 @@ while True:
         
         bckp.compareDir(dir2Backup, base_dir, bckp_struct)
         bckp.generate_incremental_backup(folder, bckp_struct)
+
+    elif function_call == 'build backup':
+        incr_bckp_dir = input('Incremental backup dir: ').replace('\"','')
+        gen_dir = input('Save built directory: ').replace('\"','')
+        bckp.build_backup(incr_bckp_dir, gen_dir)
     
     elif function_call == 'exit':
         sys.exit(0)
