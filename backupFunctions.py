@@ -141,7 +141,7 @@ def build_backup(incr_backup_dir, gen_built_dir):
             relative_path = new.replace(backup_dir,'')
             relative_path = relative_path[:relative_path.rfind('/')]
             if name == 'incremental_backup.txt':
-                #Remove
+                remove_with_file(new, newFolder)
                 continue
             if os.path.isfile(new):
                 print('Es file')
@@ -159,4 +159,15 @@ def buid_folder(folder_path, gen_built_dir):
     pass
 
 def remove_with_file(file_path, base_dir):
-    pass
+    file = open(file_path, 'r')
+    print("Printing the file data:")
+    for line in file:
+        path2rm = line[2:].replace('\n', '') 
+        print (path2rm)
+        dir2rm = base_dir + path2rm
+        dir2rm = dir2rm.replace('/','\\')
+        print("Removing: " + dir2rm)
+        if os.path.isfile(dir2rm):      #File
+            os.remove(dir2rm)
+        if os.path.isdir(dir2rm):       #Folder
+            shutil.rmtree(dir2rm)
