@@ -135,23 +135,21 @@ def build_backup(incr_backup_dir, gen_built_dir):
         print(temp_bckp_struct)
 
         for new in temp_bckp_struct.new:
-            if new == 'incremental_backup.txt':
-                #Remove
-                continue
+            
             print('\t' + new)
-
+            name = new[new.rfind('/')+1:]
             relative_path = new.replace(backup_dir,'')
             relative_path = relative_path[:relative_path.rfind('/')]
+            if name == 'incremental_backup.txt':
+                #Remove
+                continue
             if os.path.isfile(new):
                 print('Es file')
                 shutil.copy2(new, newFolder + relative_path)
             else:
                 print('No es file')
-                #existe ya?
-                name = new[new.rfind('/'):]
-                #folder_dir = os.path.join(newFolder, name)
-                print(name)
-                shutil.copytree(new, newFolder + name)
+                print(newFolder + relative_path + '/' + name)
+                shutil.copytree(new, newFolder + relative_path + '/' + name)
         
         if bckp_name == target_backup:
             # Ha finalizado
