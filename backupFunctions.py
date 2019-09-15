@@ -140,9 +140,11 @@ def build_backup(incr_backup_dir, gen_built_dir):
                 continue
             print('\t' + new)
 
+            relative_path = new.replace(backup_dir,'')
+            relative_path = relative_path[:relative_path.rfind('/')]
             if os.path.isfile(new):
                 print('Es file')
-                shutil.copy2(new, newFolder)
+                shutil.copy2(new, newFolder + relative_path)
             else:
                 print('No es file')
                 #existe ya?
