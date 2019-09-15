@@ -22,6 +22,7 @@ class backup_struct:
         for item in self.deleted:
             print('\t-' + item)
         
+        print() 
         return ''
 
 def compareDir (dir_new, dir_old, bckp_struct, verbose=False):
@@ -99,6 +100,7 @@ def generate_incremental_backup(directory, changes_list):
                 os.makedirs(path)
             shutil.copy2(dir_name, path)
         else:
+            print('Is a folder')
             relative_dir = dir_name.replace(changes_list.dir2Backup, '')
             print(relative_dir)
             shutil.copytree(dir_name, newFolder + relative_dir)
@@ -120,26 +122,41 @@ def build_backup(incr_backup_dir, gen_built_dir):
         if os.path.exists(os.path.join(incr_backup_dir, target_backup)):
             break
 
-    newFolder = gen_built_dir + '/' + 'Built'
+    newFolder = gen_built_dir + '/' + 'Built_' + target_backup
     if not os.path.exists(newFolder):
         os.makedirs(newFolder)
 
     for bckp_name in backups_name:
         print(bckp_name)
-        #first remove the deteled part
-        dirs = os.listdir(os.path.join(incr_backup_dir, bckp_name))
-        for dir_ in dirs:
-            if dir_ == 'incremental_bacup.txt':
+
+        backup_dir = os.path.join(incr_backup_dir, bckp_name)
+        temp_bckp_struct = backup_struct()
+        compareDir(backup_dir, newFolder, temp_bckp_struct)
+        print(temp_bckp_struct)
+
+        for new in temp_bckp_struct.new:
+            if new == 'incremental_backup.txt':
+                #Remove
                 continue
-            print('\t' + dir_)
-            file_name = os.path.join(incr_backup_dir, bckp_name, dir_)
-            print(file_name)
-            if os.path.isfile(file_name):
+            print('\t' + new)
+
+            if os.path.isfile(new):
                 print('Es file')
-                shutil.copy2(file_name, newFolder)
+                shutil.copy2(new, newFolder)
             else:
                 print('No es file')
+                #existe ya?
+                name = new[new.rfind('/'):]
+                #folder_dir = os.path.join(newFolder, name)
+                print(name)
+                shutil.copytree(new, newFolder + name)
         
         if bckp_name == target_backup:
             # Ha finalizado
             break
+
+def buid_folder(folder_path, gen_built_dir):
+    pass
+
+def remove_with_file(file_path, base_dir):
+    pass
