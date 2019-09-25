@@ -73,13 +73,6 @@ def generate_incremental_backup(directory, changes_list):
     index = changes_list.dir2Backup.rfind('\\')
     folder_name = changes_list.dir2Backup[index:]
 
-    #if index < 0:
-    #    now = datetime.datetime.now()
-    #    date = str(now)[:str(now).find(' ')]
-    #else:
-    #    date = baseDir[index:]
-    #print(date)
-
     newFolder = directory + folder_name
     if not os.path.exists(newFolder):
         os.makedirs(newFolder)
