@@ -26,13 +26,13 @@ class backup_struct:
         return ''
 
 def check_ignore_list (dir_list, ignore_list):
-    i = 0
-    for direc in dir_list:
+    i = len(dir_list) - 1
+    while (i >= 0):
         for ignore_dir in ignore_list:
-            if direc == ignore_dir:
-                dir_list.remove(i)
-            else:
-                i += 1
+            if dir_list[i] == ignore_dir:
+                dir_list.remove(ignore_dir)
+                break
+        i -= 1
 
 def compareDir (dir_new, dir_old, bckp_struct, ignore_list, verbose=False):
     cmp = filecmp.dircmp(dir_new, dir_old)
