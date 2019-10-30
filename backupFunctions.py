@@ -25,11 +25,22 @@ class backup_struct:
         print() 
         return ''
 
-def compareDir (dir_new, dir_old, bckp_struct, verbose=False):
+def check_ignore_list (dir_list, ignore_list):
+    i = 0
+    for direc in dir_list:
+        for ignore_dir in ignore_list:
+            if direc == ignore_dir:
+                dir_list.remove(i)
+            else:
+                i += 1
+
+def compareDir (dir_new, dir_old, bckp_struct, ignore_list, verbose=False):
     cmp = filecmp.dircmp(dir_new, dir_old)
     
     new = cmp.left_only
     deleted = cmp.right_only
+
+    check_ignore_list(new, ignore_list)
 
     if verbose:
         print('New:')
@@ -64,7 +75,7 @@ def compareDir (dir_new, dir_old, bckp_struct, verbose=False):
     for folder in cmp.common_dirs:
         if verbose:
             print('\t' + folder)
-        compareDir(dir_new + '/' + folder, dir_old + '/' + folder, bckp_struct)
+        compareDir(dir_new + '/' + folder, dir_old + '/' + folder, bckp_struct, ignore_list)
 
 
 def generate_incremental_backup(directory, changes_list):
