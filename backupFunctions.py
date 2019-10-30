@@ -175,3 +175,32 @@ def remove_with_file(file_path, base_dir):
             os.remove(dir2rm)
         if os.path.isdir(dir2rm):       #Folder
             shutil.rmtree(dir2rm)
+
+def get_ignore_file():
+    file_path = ''
+    file = open("ignore_list.txt", 'r')
+    for line in file:
+        if line[0] == '#':
+            continue
+        else:
+            file_path = line
+            break
+
+    file.close()
+    if os.path.isfile(file_path):
+        return file_path
+    else:
+        return -1
+
+def load_ignore_list():
+    file_dir = get_ignore_file()
+    if file_dir == -1:
+        print("Ignore_file not found")
+    else:
+        ignore_list = []
+        ignore_file = open(file_dir, 'r')
+        for line in ignore_file:
+            if line[0] != '#':
+                ignore_list.append(line)
+        ignore_file.close()
+        return ignore_list

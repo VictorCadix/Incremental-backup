@@ -12,7 +12,8 @@ while True:
         dirB = input("Dir B: ").replace('\"','')
 
         bckp_struct = bckp.backup_struct()
-        bckp.compareDir(dirA, dirB, bckp_struct)
+        ignore_list = bckp.load_ignore_list()
+        bckp.compareDir(dirA, dirB, bckp_struct, ignore_list)
         print(bckp_struct)
     
     elif function_call == 'generate incremental backup':
